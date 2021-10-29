@@ -69,18 +69,15 @@ SOFTWARE.
             backgroundImage = [UIImage yp_imageWithColor:configure.backgroundColor];
         }
         
-        if (@available(iOS 13.0, *)){
-            UINavigationBarAppearance *appearance = [UINavigationBarAppearance new];
-            [appearance configureWithOpaqueBackground];
+        if (@available(iOS 13.0, *)) {
+            UINavigationBarAppearance *appearance = [[self standardAppearance] copy];
+            [appearance configureWithTransparentBackground];
             appearance.backgroundColor = configure.backgroundColor;
-            appearance.shadowColor = nil;
+            appearance.backgroundImage = transpanrentImage;
+            self.scrollEdgeAppearance = appearance;
             self.standardAppearance = appearance;
-            UINavigationBarAppearance *appearanceScroll = [UINavigationBarAppearance new];
-            [appearanceScroll configureWithOpaqueBackground];
-            appearanceScroll.shadowColor = nil;
-            self.scrollEdgeAppearance = appearanceScroll;
         } else {
-            [self setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+            [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
         }
     }
     
