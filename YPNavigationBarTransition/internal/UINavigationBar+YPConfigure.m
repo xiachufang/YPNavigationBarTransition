@@ -49,34 +49,38 @@ SOFTWARE.
     UIView *barBackgroundView = [self yp_backgroundView];
     UIImage* const transpanrentImage = [UIImage yp_transparentImage];
     if (configure.transparent) {
-        barBackgroundView.alpha = 0;
-        self.translucent = YES;
+
         if (@available(iOS 13.0, *)) {
             UINavigationBarAppearance *appearance = [[self standardAppearance] copy];
             [appearance configureWithTransparentBackground];
-            appearance.backgroundColor = configure.backgroundColor;
-            appearance.backgroundImage = transpanrentImage;
             self.scrollEdgeAppearance = appearance;
             self.standardAppearance = appearance;
         } else {
+            barBackgroundView.alpha = 0;
+            self.translucent = YES;
             [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
         }
     } else {
-        barBackgroundView.alpha = 1;
-        self.translucent = configure.translucent;
-        UIImage* backgroundImage = configure.backgroundImage;
-        if (!backgroundImage && configure.backgroundColor) {
-            backgroundImage = [UIImage yp_imageWithColor:configure.backgroundColor];
-        }
         
         if (@available(iOS 13.0, *)) {
             UINavigationBarAppearance *appearance = [[self standardAppearance] copy];
-            [appearance configureWithTransparentBackground];
-            appearance.backgroundColor = configure.backgroundColor;
-            appearance.backgroundImage = transpanrentImage;
+            if (configure.backgroundImage) {
+                [appearance configureWithTransparentBackground];
+                appearance.backgroundImage = configure.backgroundImage;
+            }else{
+                [appearance configureWithOpaqueBackground];
+                appearance.backgroundColor = configure.backgroundColor;
+            }
+            appearance.shadowColor = nil;
             self.scrollEdgeAppearance = appearance;
             self.standardAppearance = appearance;
         } else {
+            barBackgroundView.alpha = 1;
+            self.translucent = configure.translucent;
+            UIImage* backgroundImage = configure.backgroundImage;
+            if (!backgroundImage && configure.backgroundColor) {
+                backgroundImage = [UIImage yp_imageWithColor:configure.backgroundColor];
+            }
             [self setBackgroundImage:transpanrentImage forBarMetrics:UIBarMetricsDefault];
         }
     }
