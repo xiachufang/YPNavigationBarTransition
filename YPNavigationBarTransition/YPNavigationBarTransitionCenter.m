@@ -195,7 +195,7 @@ static struct {
              [UIView setAnimationsEnabled:YES];
          }
      } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-         if (self.isTransitionNavigationBar) {
+         if (!self.isTransitionNavigationBar) {
              return;
          }
          if ([context isCancelled]) {
