@@ -195,6 +195,9 @@ static struct {
              [UIView setAnimationsEnabled:YES];
          }
      } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+         if (self.isTransitionNavigationBar) {
+             return;
+         }
          if ([context isCancelled]) {
              [self removeFakeBars];
              [navigationBar yp_applyBarConfiguration:currentConfigure];
