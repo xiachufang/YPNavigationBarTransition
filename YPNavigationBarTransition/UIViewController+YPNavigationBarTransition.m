@@ -56,6 +56,9 @@ SOFTWARE.
     
     UIView *backgroundView = [navigationBar yp_backgroundView];
     CGRect frame = [backgroundView.superview convertRect:backgroundView.frame toView:self.view];
+    if (!backgroundView.superview) {
+        frame = [navigationBar convertRect:backgroundView.frame toView:self.view];
+    }
     frame.origin.x = self.view.bounds.origin.x;
     return frame;
 }
