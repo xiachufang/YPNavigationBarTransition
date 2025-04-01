@@ -149,7 +149,7 @@ static struct {
         return;
     }
     
-    [navigationController.transitionCoordinator
+    __block BOOL isSuccess = [navigationController.transitionCoordinator
      animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
          if (showFakeBar) {
              [UIView setAnimationsEnabled:NO];
@@ -195,6 +195,9 @@ static struct {
              [UIView setAnimationsEnabled:YES];
          }
      } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+         if (!isSuccess) {
+             return;
+         }
          if ([context isCancelled]) {
              [self removeFakeBars];
              [navigationBar yp_applyBarConfiguration:currentConfigure];
